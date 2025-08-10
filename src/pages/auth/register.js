@@ -98,7 +98,7 @@ export default function Register() {
           </Form.Item>
 
           <Form.Item>
-            <Button loading={isLoading} type="primary" className="w-full">
+            <Button htmlType='submit' loading={isLoading} type="primary" className="w-full">
               Register
             </Button>
           </Form.Item>
