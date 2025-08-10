@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Button, Form, Input, message } from "antd";
 import { UserOutlined, MailOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios"
 
 export default function Register() {
+  const navigate =useNavigate()
     const [isLoading,setIsLoading]= useState(false)
   const [form] = Form.useForm();
   const onFinish = async(values) => {
@@ -16,10 +18,29 @@ export default function Register() {
     if(!userName || !email || !password){
         return message.error("Please fill all the inputs.")
     }
-     
+
+   setIsLoading(true)
+
+   axios.post("http://localhost:8000/auth/register",{
+    userName,
+    email,
+    password
+   }).then((res)=>{
+    const {token}= res.data
+    console.log("token",token);
     
+    localStorage.setItem("token",token)
+    message.success(res.data.message)
+        form.resetFields();
+        setIsLoading(false)
+        navigate("/")
 
 
+  }).catch((err)=>{
+    message.success(err?.response?.data?.message)
+   setIsLoading(false)
+   })
+     
 
 
   }
