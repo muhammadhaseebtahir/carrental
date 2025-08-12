@@ -8,7 +8,6 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
   const onFinish = async (values) => {
-    // console.log(values);
     await handleSubmit(values);
   };
   const handleSubmit = async (values) => {
@@ -16,6 +15,7 @@ export default function Login() {
     if (!email || !password) {
       return message.error("Please fill all the inputs.");
     }
+    console.log(values);
 
     axios
       .post("http://localhost:8000/auth/login", {

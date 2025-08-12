@@ -3,13 +3,14 @@ import { Button, Form, Input, message } from "antd";
 import { UserOutlined, MailOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"
+import { useAuthContext } from "../../context/AuthContext";
 
 export default function Register() {
+  const {setUserFromToken}= useAuthContext()
   const navigate =useNavigate()
     const [isLoading,setIsLoading]= useState(false)
   const [form] = Form.useForm();
   const onFinish = async(values) => {
-    // console.log("values", values);
     await handelSubmit(values)
   };
 
@@ -18,6 +19,7 @@ export default function Register() {
     if(!userName || !email || !password){
         return message.error("Please fill all the inputs.")
     }
+    // console.log("values", values);
 
    setIsLoading(true)
 
@@ -30,13 +32,14 @@ export default function Register() {
     console.log("token",token);
     
     localStorage.setItem("token",token)
+    await setUserFromToken(token)
     message.success(res.data.message)
         form.resetFields();
         setIsLoading(false)
         navigate("/")
 
 
-  }).catch((err)=>{
+  }catch((err)=>{
     message.success(err?.response?.data?.message)
    setIsLoading(false)
    })

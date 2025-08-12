@@ -1,12 +1,16 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Auth from "./auth"
 import Frontend from "./frontend"
+import { useAuthContext } from "../context/AuthContext";
 export default function Index(){
-    return (
+   
+   const {isAuthenticated} =useAuthContext()
+   
+   return (
 <Routes>
     <Route path="/*" element={<Frontend/>} />
-    <Route path="auth/*" element={<Auth/>} />
+    <Route path="auth/*" element={!isAuthenticated ?<Auth/>: <Navigate to="/" /> } />
 </Routes>
 
 
