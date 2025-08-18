@@ -23,27 +23,43 @@ export default function Register() {
 
    setIsLoading(true)
 
-   axios.post("http://localhost:8000/auth/register",{
-    userName,
-    email,
-    password
-   }).then((res)=>{
-    const {token}= res.data
-    console.log("token",token);
+  //  axios.post("http://localhost:8000/auth/register",{
+  //   userName,
+  //   email,
+  //   password
+  //  }).then((res)=>{
+  //   const {token}= res.data
+  //   console.log("token",token);
     
+  //   localStorage.setItem("token",token)
+  //   await setUserFromToken(token)
+  //   message.success(res.data.message)
+  //       form.resetFields();
+  //       setIsLoading(false)
+  //       navigate("/")
+
+
+  // }catch((err)=>{
+  //   message.success(err?.response?.data?.message)
+  //  setIsLoading(false)
+  //  })
+     
+  try{
+   const res= await axios.post("http://localhost:8000/auth/register",{
+    userName,email,password
+   })
+   const {token} = res.data
     localStorage.setItem("token",token)
-    await setUserFromToken(token)
-    message.success(res.data.message)
-        form.resetFields();
+    await  setUserFromToken(token)
+      message.success(res.data.message)
+ form.resetFields();
         setIsLoading(false)
         navigate("/")
 
-
-  }catch((err)=>{
-    message.success(err?.response?.data?.message)
+  }catch(err){
+  message.success(err?.response?.data?.message)
    setIsLoading(false)
-   })
-     
+  }
 
 
   }

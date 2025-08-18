@@ -18,14 +18,14 @@ export default function ForgotPassword() {
       return message.error("Please enter your all inputs.")
       }
       setIsLoading(true)
-      axios.post("http://localhost:8000/auth/forgot-password",{
+      axios.put("http://localhost:8000/auth/forgot-password",{
         email,newPassword
       }).then((res)=>{
           message.success(res.data?.message || "Password updated successfully");
         form.resetFields();
         navigate("/auth/login")
       }).catch((err)=>{
-         message.error(err.response?.data?.message || "Something went wrong");
+         message.error(err.response?.data.message || "Something went wrong");
       }).finally(()=>{
         setIsLoading(false)
       })

@@ -8,14 +8,14 @@ function App() {
 
 
 
-    const {isAuthenticated,isAdmin} = useAuthContext()
+    const {isAppLoading,isAuthenticated,isAdmin} = useAuthContext()
     console.log("isAuthenticated",isAuthenticated);
     console.log("isAdmin",isAdmin);
     
   return (
 <>
 
-{!isAuthenticated ?
+{!isAppLoading ?
      <Index/>  :<ScreenLoader/> }
     </>
   );

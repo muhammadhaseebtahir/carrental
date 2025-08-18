@@ -3,40 +3,45 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, message } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { useAuthContext } from "../../context/AuthContext";
 export default function Login() {
+  const {setUserFromToken}= useAuthContext()
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
   const onFinish = async (values) => {
     await handleSubmit(values);
   };
-  const handleSubmit = async (values) => {
-    const { email, password } = values;
-    if (!email || !password) {
-      return message.error("Please fill all the inputs.");
-    }
-    console.log(values);
+const handleSubmit = async (values) => {
+  const { email, password } = values;
 
-    axios
-      .post("http://localhost:8000/auth/login", {
-        email,
-        password,
-      })
-      .then((res) => {
-        const { token } = res.data;
-        localStorage.setItem("token",token);
-        form.resetFields();
-        message.success(res.data?.message || "Successfully Login." );
+  if (!email || !password) {
+    return message.error("Please fill all the inputs.");
+  }
 
-      })
-      .catch((err) => {
-        message.error(err?.response?.data?.message || "Something went wrong.");
-      }).finally(()=>{
-        setIsLoading(false);
+  setIsLoading(true);
+  try {
+    const res = await axios.post("http://localhost:8000/auth/login", {
+      email,
+      password,
+    });
 
-      })
+    const { token } = res.data;
 
-  };
+    localStorage.setItem("token", token);
+    await setUserFromToken(token);
+
+    form.resetFields();
+    message.success(res.data?.message || "Successfully logged in.");
+
+    navigate("/");
+  } catch (err) {
+    console.log("error", err);
+    message.error(err.response?.data?.message || "Something went wrong. Please try again.");
+    setIsLoading(false); // ✅ only once
+  } 
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-gray-900">

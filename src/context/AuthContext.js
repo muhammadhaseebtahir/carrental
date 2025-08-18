@@ -22,7 +22,7 @@ const initialState = {
 const reducer = (state, { type, payload }) => {
   switch (type) {
     case "SET_LOGIN":
-      return {
+      return {...state,
         isAuthenticated: true,
         isAdmin: payload.isAdmin,
         user: payload.user,
@@ -63,7 +63,7 @@ export default function AuthContextProvider({ children }) {
   const setUserFromToken = useCallback(async (token) => {
     setIsAppLoading(true);
     try {
-      const res = await axios.get("http://locahost:8000/auth/user", {
+      const res = await axios.get("http://localhost:8000/auth/user", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.status === 200) {
@@ -80,7 +80,7 @@ export default function AuthContextProvider({ children }) {
     } catch (err) {
       console.log("error", err);
       dispatch({ type: "SET_LOGOUT" });
-      message.success("Session expired, please log in again.");
+      message.error("Session expired, please log in again.");
       navigate("/auth/login");
 
       localStorage.removeItem("token");
@@ -121,7 +121,7 @@ return ()=>{
 }
 
 
-})
+},[])
 
 
 
