@@ -121,7 +121,7 @@ return ()=>{
 }
 
 
-},[])
+},[checkTokenExpiration,setUserFromToken])
 
 
 
