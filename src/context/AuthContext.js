@@ -125,8 +125,7 @@ return ()=>{
 
 
 
-
-  return <Auth.Provider value={{...state,handleLogout,setUserFromToken,isAppLoading,dispatch,}} >{children}</Auth.Provider>;
+  return <Auth.Provider value={{...state,handleLogout,setUserFromToken,isAppLoading,dispatch}} >{children}</Auth.Provider>;
 }
 
 export const useAuthContext = () => useContext(Auth);
