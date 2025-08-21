@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 export default function FeaturedVechial() {
   return (
-    <div className="h-auto dark:bg-gray-900 ">
+    <div className="bg-white dark:bg-gray-900 overflow-hidden ">
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -51,7 +51,7 @@ export default function FeaturedVechial() {
           <p className="absolute top-3 left-3 px-3 py-1 rounded-full z-10 text-xs bg-blue-500 text-white">
             Available now
           </p>
-          <p className="absolute bottom-[150px] right-4 px-3 py-2 rounded-xl font-bold z-10  bg-black text-white">
+          <p className="absolute bottom-[150px] sm:bottom-[170px]  md:bottom-[150px] right-4 px-3 py-2 rounded-xl font-bold z-10  bg-black text-white">
             $130/ <span className="text-gray-300">day</span>
           </p>
 
@@ -134,87 +134,6 @@ export default function FeaturedVechial() {
             </div>
           </div>
         </div>
-        <div className="card max-w-sm sm:max-w-[18rem] md:max-w-[22rem] shadow-xl rounded-lg bg-white dark:bg-gray-800 overflow-hidden">
-          <img src={HeroCar} alt="heroCar" />
-          <div className="card-body flex flex-col gap-1 p-4">
-            <div className="text-gray-800 dark:text-gray-300">
-              <p className="car-title font-bold ">BMW X5</p>
-              <p>SUV . 2006</p>
-            </div>
-            <div className="flex  gap-2 text-gray-500 ">
-              <p className="w-2/3">
-                {" "}
-                <UsergroupDeleteOutlined className="pr-2" /> 4 Seats
-              </p>
-              <p className="w-2/3 ">
-                <i className="ri-gas-station-line pr-2"></i> Hybrid
-              </p>
-            </div>
-            <div className="flex  gap-2 text-gray-500 ">
-              <p className="w-2/3">
-                <i className="ri-car-line pr-2"></i> Semi- Automatic
-              </p>
-              <p className="w-2/3">
-                {" "}
-                <i className="ri-map-pin-line pr-2"></i> New York
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="card max-w-sm sm:max-w-[18rem] md:max-w-[22rem] shadow-xl rounded-lg bg-white dark:bg-gray-800 overflow-hidden">
-          <img src={HeroCar} alt="heroCar" />
-          <div className="card-body flex flex-col gap-1 p-4">
-            <div className="text-gray-800 dark:text-gray-300">
-              <p className="car-title font-bold ">BMW X5</p>
-              <p>SUV . 2006</p>
-            </div>
-            <div className="flex  gap-2 text-gray-500 ">
-              <p className="w-2/3">
-                {" "}
-                <UsergroupDeleteOutlined className="pr-2" /> 4 Seats
-              </p>
-              <p className="w-2/3 ">
-                <i className="ri-gas-station-line pr-2"></i> Hybrid
-              </p>
-            </div>
-            <div className="flex  gap-2 text-gray-500 ">
-              <p className="w-2/3">
-                <i className="ri-car-line pr-2"></i> Semi- Automatic
-              </p>
-              <p className="w-2/3">
-                {" "}
-                <i className="ri-map-pin-line pr-2"></i> New York
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="card max-w-sm sm:max-w-[18rem] md:max-w-[22rem] shadow-xl rounded-lg bg-white dark:bg-gray-800 overflow-hidden">
-          <img src={HeroCar} alt="heroCar" />
-          <div className="card-body flex flex-col gap-1 p-4">
-            <div className="text-gray-800 dark:text-gray-300">
-              <p className="car-title font-bold ">BMW X5</p>
-              <p>SUV . 2006</p>
-            </div>
-            <div className="flex  gap-2 text-gray-500 ">
-              <p className="w-2/3">
-                {" "}
-                <UsergroupDeleteOutlined className="pr-2" /> 4 Seats
-              </p>
-              <p className="w-2/3 ">
-                <i className="ri-gas-station-line pr-2"></i> Hybrid
-              </p>
-            </div>
-            <div className="flex  gap-2 text-gray-500 ">
-              <p className="w-2/3">
-                <i className="ri-car-line pr-2"></i> Semi- Automatic
-              </p>
-              <p className="w-2/3">
-                {" "}
-                <i className="ri-map-pin-line pr-2"></i> New York
-              </p>
-            </div>
-          </div>
-        </div>
       </motion.div>
       <div className="text-center my-10 ">
         <button className=" border border-gray-400 rounded-lg px-5 py-2 dark:text-gray-300 hover:bg-gray-700 hover:border-slate-300">
@@ -222,25 +141,40 @@ export default function FeaturedVechial() {
         </button>
       </div>
 
+      {/* **********************Banner Section********************* */}
 
-{/* **********************Banner Section********************* */}
-
-
-      <div className="mx-auto w-full flex flex-col md:flex-row justify-between items-center  md:gap-0 p-7 md:p-10  md:max-w-6xl bg-gradient-to-r  from-blue-600 to-blue-300 rounded-xl   ">
+      <motion.div
+        initial={{ opacity: 0, y: 100 }} // 👈 shuru me neeche aur hidden
+        whileInView={{ opacity: 1, y: 0 }} // 👈 jab viewport me aaye to upar aa jaye
+        viewport={{ once: true, amount: 0.2 }} // 👈 ek hi dafa animate hoga (20% visible hone par trigger)
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="mx-auto w-full overflow-hidden flex flex-col md:flex-row justify-between items-center  md:gap-0 p-7 md:p-10  md:max-w-6xl bg-gradient-to-r  from-blue-600 to-blue-300 rounded-xl   "
+      >
         <div className="left-side space-y-5">
-          <h1 className="text-3xl font-semibold text-white" >Do You Own a Luxury Car?</h1>
+          <h1 className="text-3xl font-semibold text-white">
+            Do You Own a Luxury Car?
+          </h1>
           <p className="text-white max-w-full md:max-w-lg">
             Monetize your vehicle effortlessly by listing it on CarRental. We
             take care of insurance, driver verification and secure payments — so
             you can earn passive income, stress-free.
           </p>
-          <button className="px-4 py-2 rounded-lg bg-white text-blue-500 hover:bg-gray-200 hover:scale-105 transition-all" >List your car</button>
+          <button className="px-4 py-2 rounded-lg bg-white text-blue-500 hover:bg-gray-200 hover:scale-105 transition-all">
+            List your car
+          </button>
         </div>
         <div className="right-side mt-4 md:mt-0">
-          <img src={banerCar} alt={banerCar} className="max-w-sm" />
+          <motion.img
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            src={banerCar}
+            alt={banerCar}
+            className="max-w-sm"
+          />
         </div>
-       
-      </div>
+      </motion.div>
     </div>
   );
 }
