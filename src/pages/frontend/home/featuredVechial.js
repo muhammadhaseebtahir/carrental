@@ -1,41 +1,59 @@
 import React from "react";
 
-import { UsergroupDeleteOutlined ,ArrowRightOutlined} from "@ant-design/icons";
+import { UsergroupDeleteOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import HeroCar from "../../../component/assest/car.webp";
+import banerCar from "../../../component/assest/banner-car.png";
+
 import { motion } from "framer-motion";
 
 export default function FeaturedVechial() {
   return (
     <div className="h-auto dark:bg-gray-900 ">
-      <h1 className="text-center text-gray-900 dark:text-slate-100 pt-10 text-4xl md:text-5xl font-bold">
+      <motion.h1
+        initial={{ opacity: 0, y: -50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.2 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="text-center text-gray-900 dark:text-slate-100 pt-10 text-4xl md:text-5xl font-bold"
+      >
         Featured Vehicles
-      </h1>
-      <p className="text-sm p-5 pb-10 text-center pt-3 text-gray-700  dark:text-slate-200">
+      </motion.h1>
+      <motion.p
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.2 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="text-sm p-5 pb-10 text-center pt-3 text-gray-700  dark:text-slate-200"
+      >
         Explore our selection of premium vehicles available for your next
         adventure.
-      </p>
+      </motion.p>
 
       {/* *************Card ******************* */}
-      <motion.div 
-      initial={{ opacity: 0, y: 50 }}
-  whileInView={{ opacity: 1, y: 0 }}   // 👈 animate when in view
-  viewport={{ once: true, amount: 0.1 }} // 👈 only once, 20% visible hone par
-  transition={{ duration: 0.7, ease: "easeOut", delay: 0.3 }}
-      className="flex flex-wrap gap-6  items-center justify-center ">
-        <motion.div 
-         whileHover={{ y:-8}} // 👈 hover par 10px upar uth jaye
-       transition={{ duration: 0.3, ease: "easeOut" }}
-        className="card max-w-sm    sm:max-w-[18rem] md:max-w-[22rem] relative   shadow-xl rounded-xl     bg-white dark:bg-gray-800 overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }} // 👈 animate when in view
+        viewport={{ once: true, amount: 0.1 }} // 👈 only once, 20% visible hone par
+        transition={{ duration: 0.7, ease: "easeOut", delay: 0.3 }}
+        className="flex flex-wrap gap-6  items-center justify-center "
+      >
+        <motion.div
+          whileHover={{ y: -8 }} // 👈 hover par 10px upar uth jaye
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="card max-w-sm    sm:max-w-[18rem] md:max-w-[22rem] relative   shadow-xl rounded-xl     bg-white dark:bg-gray-800 overflow-hidden"
+        >
           <motion.img
-            whileHover={{ scale:1.05}} // 👈 hover par 10px upar uth jaye
-       transition={{ duration: 0.3, ease: "easeOut" }}
-          src={HeroCar} alt="heroCar" />
+            whileHover={{ scale: 1.05 }} // 👈 hover par 10px upar uth jaye
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            src={HeroCar}
+            alt="heroCar"
+          />
           <p className="absolute top-3 left-3 px-3 py-1 rounded-full z-10 text-xs bg-blue-500 text-white">
-    Available now
-  </p>
+            Available now
+          </p>
           <p className="absolute bottom-[150px] right-4 px-3 py-2 rounded-xl font-bold z-10  bg-black text-white">
-    $130/ <span className="text-gray-300" >day</span>
-  </p>
+            $130/ <span className="text-gray-300">day</span>
+          </p>
 
           <div className="card-body flex flex-col gap-1 p-4">
             <div className="text-gray-800 dark:text-gray-300">
@@ -199,8 +217,29 @@ export default function FeaturedVechial() {
         </div>
       </motion.div>
       <div className="text-center my-10 ">
-        
-         <button className=" border border-gray-400 rounded-lg px-5 py-2 dark:text-gray-300 hover:bg-gray-100 hover:border-slate-300">Explore all cars <ArrowRightOutlined className="pl-2" /></button>
+        <button className=" border border-gray-400 rounded-lg px-5 py-2 dark:text-gray-300 hover:bg-gray-700 hover:border-slate-300">
+          Explore all cars <ArrowRightOutlined className="pl-2" />
+        </button>
+      </div>
+
+
+{/* **********************Banner Section********************* */}
+
+
+      <div className="mx-auto w-full flex flex-col md:flex-row justify-between items-center  md:gap-0 p-7 md:p-10  md:max-w-6xl bg-gradient-to-r  from-blue-600 to-blue-300 rounded-xl   ">
+        <div className="left-side space-y-5">
+          <h1 className="text-3xl font-semibold text-white" >Do You Own a Luxury Car?</h1>
+          <p className="text-white max-w-full md:max-w-lg">
+            Monetize your vehicle effortlessly by listing it on CarRental. We
+            take care of insurance, driver verification and secure payments — so
+            you can earn passive income, stress-free.
+          </p>
+          <button className="px-4 py-2 rounded-lg bg-white text-blue-500 hover:bg-gray-200 hover:scale-105 transition-all" >List your car</button>
+        </div>
+        <div className="right-side mt-4 md:mt-0">
+          <img src={banerCar} alt={banerCar} className="max-w-sm" />
+        </div>
+       
       </div>
     </div>
   );
