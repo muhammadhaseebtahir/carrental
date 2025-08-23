@@ -9,9 +9,6 @@ import { motion } from "framer-motion";
 import Card from "../../../component/card";
 
 export default function FeaturedVechial() {
- 
-  
-
   return (
     <div className="bg-white dark:bg-gray-900 overflow-hidden ">
       <motion.h1
