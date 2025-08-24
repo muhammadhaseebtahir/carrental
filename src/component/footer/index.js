@@ -84,9 +84,11 @@ export default function Footer() {
           <a href="https://prebuiltui.com">PrebuiltUI</a>. All rights reserved.
         </p>
         <ul className="flex items-center gap-4">
-          <li>Privacy |</li>
-          <li>Terms |</li>
-          <li>Sitemap |</li>
+          <li>Privacy</li>
+          <li>|</li>
+          <li>Terms</li>
+          <li>|</li>
+          <li>Sitemap</li>
         </ul>
       </motion.div>
     </motion.div>

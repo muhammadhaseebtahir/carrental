@@ -158,7 +158,7 @@ export default function Header() {
             <Link to="/auth/login">
               <button
                 onClick={() => setMenuOpen(false)}
-                className="w-full bg-blue-700 text-white py-2 rounded-md hover:bg-blue-500 flex items-center justify-center gap-2"
+                className="w-full bg-blue-700 text-white py-2 rounded-md hover:bg-blue-500 flex items-center justify-center gap-2 mt-2"
               >
                 <UserOutlined /> Login
               </button>

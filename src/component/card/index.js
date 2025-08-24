@@ -1,14 +1,19 @@
 import React from 'react'
 import { UsergroupDeleteOutlined } from "@ant-design/icons";
 import HeroCar from "../assest/car.webp"
+import { useNavigate } from 'react-router-dom';
 // import { motion } from "framer-motion";
 export default function Card({card}) {
+  const navigate= useNavigate()
   return (
 
 
 
 
    <div
+  onClick={() =>{
+          navigate(`/product-details/${card.id}`, { state: { card } });window.scrollTo(0,0)}
+        }
          
           className="card max-w-sm   group hover:-translate-y-1  transition-all duration-500  cursor-pointer sm:max-w-[18rem] md:max-w-[22rem] relative   shadow-xl rounded-xl     bg-white dark:bg-gray-800 overflow-hidden"
         >

@@ -5,6 +5,7 @@ import Mybookings from './myBooking'
 import Home from './home'
 import Header from '../../component/header'
 import Footer from '../../component/footer'
+import ProductDetails from './productDetails'
 
 export default function index() {
   return (
@@ -19,6 +20,7 @@ export default function index() {
       <Route index element={<Home/>} />
       <Route path='/cars' element={<Cars/>} />
       <Route path='/my-bookings' element={<Mybookings/>} />
+      <Route path='/product-details/:id' element={<ProductDetails/>} />
     </Routes>
     </main>
     <Footer/>

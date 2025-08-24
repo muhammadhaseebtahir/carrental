@@ -40,7 +40,7 @@ export default function FeaturedVechial() {
         className="flex flex-wrap gap-6  items-center justify-center "
       >
         {cardData.slice(0, 6).map((item, i) => (
-          <Card card={item} key={i} />
+          <Card card={item} key={i}  />
         ))}
       </motion.div>
       <div className="text-center my-10 ">
