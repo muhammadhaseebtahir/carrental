@@ -97,9 +97,11 @@ export default function Header() {
               </Button>
             ) : (
               <Space>
+                <Link to="/dashboard" >
                 <Button className="px-4 py-4 bg-slate-50 dark:bg-gray-700 dark:text-white">
                   Dashboard
                 </Button>
+                </Link>
                 <Button
                   type="primary"
                   className="px-4 py-4"
@@ -172,9 +174,13 @@ export default function Header() {
             </button>
           ) : (
             <div className="space-y-3 mt-3">
-              <button className="w-full bg-blue-500 text-white rounded-md hover:bg-blue-700 py-2">
+              <Link  to="/dashboard" >
+              <button className="w-full bg-blue-500 text-white rounded-md hover:bg-blue-700 py-2"
+             
+              >
                 Dashboard
               </button>
+              </Link>
               <button
                 className="w-full bg-blue-500 text-white rounded-md hover:bg-blue-700 py-2"
                 onClick={handleLogout}
