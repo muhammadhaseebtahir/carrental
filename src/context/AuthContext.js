@@ -1,6 +1,3 @@
-import { message } from "antd";
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 import React, {
   createContext,
   useCallback,
@@ -10,7 +7,10 @@ import React, {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
+import { message } from "antd";
+  import axios from "axios";
 
+  import { jwtDecode } from "jwt-decode";
 const Auth = createContext();
 
 const initialState = {
@@ -22,7 +22,8 @@ const initialState = {
 const reducer = (state, { type, payload }) => {
   switch (type) {
     case "SET_LOGIN":
-      return {...state,
+      return {
+        ...state,
         isAuthenticated: true,
         isAdmin: payload.isAdmin,
         user: payload.user,
@@ -43,6 +44,7 @@ export default function AuthContextProvider({ children }) {
   const [isAppLoading, setIsAppLoading] = useState(true);
   const navigate = useNavigate();
 
+  // *********** Logout ***********
   const handleLogout = useCallback(() => {
     try {
       dispatch({ type: "SET_LOGOUT" });
@@ -53,79 +55,90 @@ export default function AuthContextProvider({ children }) {
       }, 500);
     } catch (err) {
       console.log("error", err);
-
       message.error("Something went wrong while logging out");
     }
-  },[navigate, dispatch]);
+  }, [navigate, dispatch]);
 
-  //   ************Set user from token*************
+  // *********** Set user from token ***********
+  const setUserFromToken = useCallback(
+    async (token, isInitial = false) => {
+      if (isInitial) setIsAppLoading(true); // sirf app start par loader
+      try {
+        const res = await axios.get("http://localhost:8000/auth/user", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-  const setUserFromToken = useCallback(async (token) => {
-    setIsAppLoading(true);
-    try {
-      const res = await axios.get("http://localhost:8000/auth/user", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.status === 200) {
-        const user = res.data.user;
-        if (!user || !user.role) {
-          console.log("User not found or role missing");
+        if (res.status === 200) {
+          const user = res.data.user;
+          if (!user || !user.role) {
+            console.log("User not found or role missing");
+            handleLogout();
+          }
+          const isAdmin = user.role.includes("admin");
+          dispatch({ type: "SET_LOGIN", payload: { user, isAdmin } });
+        } else {
           handleLogout();
         }
-        const isAdmin = user.role.includes("admin");
-        dispatch({ type: "SET_LOGIN", payload: { user, isAdmin } });
-      } else {
+      } catch (err) {
+        console.log("error", err);
+        dispatch({ type: "SET_LOGOUT" });
+        message.error("Session expired, please log in again.");
+        navigate("/auth/login");
+        localStorage.removeItem("token");
+      } finally {
+        if (isInitial) setIsAppLoading(false); // sirf initial load par loader hatao
+      }
+    },
+    [navigate, handleLogout]
+  );
+
+  // *********** Check token expiration ***********
+  const checkTokenExpiration = useCallback(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodeToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      if (decodeToken.exp < currentTime) {
+        message.error("Session expired, please log in again.");
         handleLogout();
       }
-    } catch (err) {
-      console.log("error", err);
-      dispatch({ type: "SET_LOGOUT" });
-      message.error("Session expired, please log in again.");
-      navigate("/auth/login");
-
-      localStorage.removeItem("token");
-    } finally {
-      setIsAppLoading(false);
     }
-  },[navigate, handleLogout]);
+  }, [handleLogout]);
 
+  // *********** Initial check ***********
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkTokenExpiration();
+    }, 5000);
 
-const checkTokenExpiration=useCallback(()=>{
-  const token =localStorage.getItem("token")
-  if(token){
-    const decodeToken = jwtDecode(token)
-    const currentTime = Date.now()/1000
-if(decodeToken.exp < currentTime){
- message.error("Session expired, please log in again.");
-        handleLogout();
-}
+    const fetchToken = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        await setUserFromToken(token, true); // sirf pehle load par loader
+      } else {
+        setIsAppLoading(false);
+      }
+    };
+    fetchToken();
 
-}
-},[handleLogout])
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
-useEffect(()=>{
-    const interval= setInterval(()=>{
-      checkTokenExpiration()
-    },5000)
-const fetchToken =async()=>{
-    const token = localStorage.getItem("token")
-    if(token){
-        await setUserFromToken(token)
-    }else{
-        setIsAppLoading(false)
-    }
-}
-fetchToken()
-return ()=>{
-    clearInterval(interval)
-}
-
-
-},[checkTokenExpiration,setUserFromToken])
-
-
-
-  return <Auth.Provider value={{...state,handleLogout,setUserFromToken,isAppLoading,dispatch}} >{children}</Auth.Provider>;
+  return (
+    <Auth.Provider
+      value={{
+        ...state,
+        handleLogout,
+        setUserFromToken,
+        isAppLoading,
+        dispatch,
+      }}
+    >
+      {children}
+    </Auth.Provider>
+  );
 }
 
 export const useAuthContext = () => useContext(Auth);

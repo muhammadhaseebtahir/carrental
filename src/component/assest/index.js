@@ -66,26 +66,20 @@ export const ownerMenuLinks = [
   },
   {
     name: "Add car",
-    path: "/add-car",
+    path: "/dashboard/add-car",
     coloredIcon: <i className="ri-add-box-line text-blue-500"></i>,
     icon: <i className="ri-add-box-line"></i>,
   },
-  {
-    name: "Manage Bookings",
-    path: "/manage-booking",
-    coloredIcon: <i className="ri-layout-2-fill text-blue-500"></i>,
-    icon: <i className="ri-layout-2-fill"></i>,
-  },
-  {
+    {
     name: "Manage Car",
-    path: "/manage-car",
+    path: "/dashboard/manage-car",
     coloredIcon: <i className="ri-car-fill text-blue-500"></i>,
     icon: <i className="ri-car-fill"></i>,
   },
   {
     name: "Manage Bookings",
-    path: "/manage-booking",
-    coloredIcon: <i className="ri-clipboard-line text-blue-500"></i>,
+    path: "/dashboard/manage-booking",
+    coloredIcon: <i className="ri-database-2-line text-blue-500"></i>,
     icon: <i className="ri-clipboard-line"></i>,
   },
 ];

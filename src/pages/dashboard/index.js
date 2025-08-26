@@ -1,29 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useAuthContext } from '../../context/AuthContext'
-import { Outlet, useLocation } from 'react-router-dom'
-import haseeb from "../../component/assest/haseeb.png"
-import Index from './Routes'
+import { Outlet } from 'react-router-dom'
 import DashboardHeader from '../../component/dashboardHeader'
 import SideBar from '../../component/sideBar'
 
 export default function Layout() {
-    const {user} = useAuthContext()
-    const location = useLocation()
-    const [image,setImage]= useState('')
-
-    
-
+  const { user } = useAuthContext()
 
   return (
-    
-   <div className='flex flex-col'>
-    <DashboardHeader/>
-    <div className="flex">
-      <SideBar/>
-      <Outlet/>
+    <div className="flex flex-col min-h-screen">
+      <DashboardHeader user={user} />
+      <div className="flex flex-1">
+        <div className="w-64">
+          <SideBar />
+        </div>
+        <div className="flex-1 p-4">
+          <Outlet />
+        </div>
+      </div>
     </div>
-   
-   </div>
-    
   )
 }
