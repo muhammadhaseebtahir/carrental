@@ -78,7 +78,7 @@ export const ownerMenuLinks = [
   },
   {
     name: "Manage Bookings",
-    path: "/dashboard/manage-booking",
+    path: "/dashboard/manage-bookings",
     coloredIcon: <i className="ri-database-2-line text-blue-500"></i>,
     icon: <i className="ri-clipboard-line"></i>,
   },

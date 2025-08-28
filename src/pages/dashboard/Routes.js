@@ -13,9 +13,9 @@ export default function Index() {
 
       <Routes>
         <Route index element={<Home />} />
-        <Route to="/add-car" element={<AddCars/>}  />
-        <Route to="/manage-car" element={<ManageCar/>} />
-        <Route to="/manage-bookings" element={<ManageBookings/>} />
+        <Route path="/add-car" element={<AddCars/>}  />
+        <Route path="/manage-car" element={<ManageCar/>} />
+        <Route path="/manage-bookings" element={<ManageBookings/>} />
       </Routes>
     </>
   );
