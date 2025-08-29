@@ -16,7 +16,7 @@ export default function SideBar() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center md:items-start pt-8 max-w-14 md:max-w-60 w-full border-r border-gray-300 text-sm">
+    <div className="relative h-screen flex flex-col items-center md:items-start pt-8 max-w-14 md:max-w-60 w-full border-r border-gray-300 text-sm">
       
       {/* Profile Image */}
       <div className="w-full flex justify-center ">

@@ -7,7 +7,7 @@ export default function ProductDetails() {
   const navigate= useNavigate()
   const location = useLocation();
   const { card } = location.state || {}; // safe access
-  console.log("card", card);
+
 
 
 const handleSubmit=(e)=>{
