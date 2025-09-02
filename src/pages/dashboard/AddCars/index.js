@@ -121,7 +121,7 @@ export default function AddCars() {
   };
 
   return (
-    <div className="px-4 py-10 md:px-10 flex-1">
+    <div className="px-4 py-10 md:px-10  ">
       <h1 className="text-3xl font-semibold">Add New Car</h1>
       <p className="text-gray-400 pt-1">
         Fill in details to list a new car for booking, including pricing,

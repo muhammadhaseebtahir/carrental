@@ -1,41 +1,110 @@
 import React, { useEffect, useState } from "react";
-import { Empty, Image, message, Space, Table, Button } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  Empty,
+  Image,
+  message,
+  Space,
+  Table,
+  Button,
+  Modal,
+  Form,
+  Input,
+  Select,
+  Upload
+} from "antd";
+
+import { EditOutlined, DeleteOutlined,PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 export default function ManageCar() {
   const [product, setProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [form] = Form.useForm();
 
-  useEffect(() => {
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const [imageUrl, setImageUrl] = useState(null);
+const uploadButton = (
+  <div>
+    <PlusOutlined />
+    <div style={{ marginTop: 8 }}>Upload</div>
+  </div>
+);
+
+const handleUploadChange = ({ file }) => {
+  if (file && file.originFileObj) {
+    const previewUrl = URL.createObjectURL(file.originFileObj);
+    setImageUrl(previewUrl); // 👈 yeh update karega
+    // Agar aapko backend ke liye file store karni hai to yaha state bana sakte ho
+    // setSelectedFile(file.originFileObj);
+  }
+};
+  const fetchData = async () => {
     setIsLoading(true);
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:8000/dashboard/getProducts",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setProduct(res.data.data);
-      } catch (err) {
-        console.log("error", err);
-        message.error(err.response?.data?.message || "Something went wrong");
-      }
-      setIsLoading(false);
-    };
-
+    try {
+      const res = await axios.get(
+        "http://localhost:8000/dashboard/getProducts",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setProduct(res.data.data);
+    } catch (err) {
+      console.log("error", err);
+      message.error(err.response?.data?.message || "Something went wrong");
+    }
+    setIsLoading(false);
+  };
+  useEffect(() => {
     fetchData();
   }, []);
 
-  const handleEdit = (record) => {
-    console.log("edit", record);
+const showUpdateModal = (record) => {
+  form.setFieldsValue(record);
+  setSelectedProduct(record);
+  // Agar product ki image hai to use show karo
+  if (record.image?.url) {
+    setImageUrl(record.image.url);
+  } else {
+    setImageUrl(null);
+  }
+  setIsModalVisible(true);
+};
+  const handleUpdate = (values) => {
+    const updatedProduct = { ...selectedProduct, ...values };
+    // Call API to update product
+    setIsModalVisible(false);
   };
 
-  const handleDelete = (id) => {
-    console.log("delete", id);
+  const handleDelete = async (_id) => {
+    Modal.confirm({
+      title: "Are you sure to delete this product?",
+      okText: "Delete",
+      cancelText: "Cancel",
+      onOk: async () => {
+        try {
+          const res = await axios.delete(
+            `http://localhost:8000/dashboard/deleteProduct/${_id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+          if (res.status === 200) {
+            message.success("Product deleted successfully");
+            fetchData();
+          } else {
+            message.error(res.data.message);
+          }
+        } catch (err) {
+          message.error(err.response?.data?.message || "Something went wrong");
+        }
+      },
+    });
   };
 
   const columns = [
@@ -43,11 +112,9 @@ export default function ManageCar() {
       title: "Image",
       dataIndex: "image",
       key: "image",
-      width: 120,
-      fixed: "left",
       render: (image) => (
         <Image
-          src={image}
+          src={image.url}
           alt="car"
           width={70}
           height={70}
@@ -59,70 +126,74 @@ export default function ManageCar() {
       title: "Brand",
       dataIndex: "brand",
       key: "brand",
-      width: 150,
-      responsive: ["xs", "sm", "md", "lg"], // ✅ hamesha visible
     },
     {
       title: "Model",
       dataIndex: "model",
       key: "model",
-      width: 150,
-      responsive: ["md", "lg"], // ✅ sirf md se upar visible
     },
     {
       title: "Year",
       dataIndex: "year",
       key: "year",
-      width: 120,
-      responsive: ["md", "lg"],
     },
     {
-      title: "Price Per Day $",
+      title: "Price/Day ($)",
       dataIndex: "pricePerDay",
       key: "pricePerDay",
-      width: 180,
-      responsive: ["xs", "sm", "md", "lg"], // ✅ hamesha visible
     },
     {
       title: "Category",
       dataIndex: "category",
       key: "category",
-      width: 150,
-      responsive: ["lg"], // ✅ sirf large screen par
     },
     {
       title: "Transmission",
       dataIndex: "transmission",
       key: "transmission",
-      width: 150,
-      responsive: ["lg"],
     },
     {
       title: "Fuel Type",
       dataIndex: "fuel_type",
       key: "fuel_type",
-      width: 150,
-      responsive: ["lg"],
+    },
+    {
+      title: "Seating Capacity",
+      dataIndex: "seating_capacity",
+      key: "seating_capacity",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => (
+        <span
+          className={`px-2 py-1 rounded-full text-white ${
+            status === "available"
+              ? "bg-green-100 text-green-500"
+              : "bg-red-100 text-red-500 "
+          }`}
+        >
+          {status === "available" ? "Available" : "Unavailable"}
+        </span>
+      ),
     },
     {
       title: "Description",
       dataIndex: "description",
       key: "description",
       width: 300,
-      responsive: ["lg"],
     },
     {
       title: "Actions",
       key: "actions",
-      width: 120,
-      fixed: "right",
       render: (_, record) => (
         <Space>
           <Button
             type="primary"
             shape="circle"
             icon={<EditOutlined />}
-            onClick={() => handleEdit(record)}
+            onClick={() => showUpdateModal(record)}
           />
           <Button
             danger
@@ -132,22 +203,20 @@ export default function ManageCar() {
           />
         </Space>
       ),
-      responsive: ["xs", "sm", "md", "lg"], // ✅ hamesha visible
     },
   ];
 
   return (
-    <div className="px-4 pt-10 md:px-6 w-full">
+    <div className="px-4 pt-10 md:px-6 w-full space-y-3">
       <h1 className="text-3xl font-semibold">Manage Cars</h1>
       <p className="text-gray-500">
         View all listed cars, update their details, or remove them from the
         booking platform.
       </p>
-
-      {product.length === 0 && !isLoading ? (
-        <Empty description="No products in table" />
-      ) : (
-        <div className="overflow-x-auto w-full">
+      <div className="pt-10">
+        {product.length === 0 && !isLoading ? (
+          <Empty description="No products in table" />
+        ) : (
           <Table
             dataSource={product}
             loading={isLoading}
@@ -157,8 +226,84 @@ export default function ManageCar() {
             columns={columns}
             rowKey="_id"
           />
-        </div>
-      )}
+        )}
+
+        {/* *************Update Model************* */}
+
+        <Modal
+          title="Update Product"
+          open={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+          onOk={() => form.submit()}
+          okText="Update"
+        >
+          <Form form={form} layout="vertical" onFinish={handleUpdate}>
+            {/* Image Upload Field */}
+ <Form.Item label="Image">
+  <Upload
+    listType="picture-card"
+    showUploadList={false}
+    beforeUpload={() => false}
+    onChange={handleUploadChange}
+  >
+    {imageUrl ? (
+      <img
+        src={imageUrl}
+        alt="avatar"
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      />
+    ) : (
+      uploadButton
+    )}
+  </Upload>
+</Form.Item>
+            <Form.Item name="brand" label="Brand">
+              <Input />
+            </Form.Item>
+            <Form.Item name="model" label="Model">
+              <Input />
+            </Form.Item>
+            <div className="grid grid-cols-1 sm:grid-cols-2  gap-0 sm:gap-x-4">
+              <Form.Item name="year" label="Year">
+                <Input />
+              </Form.Item>
+              <Form.Item name="pricePerDay" label="Price/Day ($)">
+                <Input />
+              </Form.Item>
+              <Form.Item name="category" label="Category">
+                <Select>
+                  <Select.Option value="sedan">Sedan</Select.Option>
+                  <Select.Option value="suv">SUV</Select.Option>
+                  <Select.Option value="hatchback">Van</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item name="transmission" label="Transmission">
+                <Select>
+                  <Select.Option value="manual">Manual</Select.Option>
+                  <Select.Option value="automatic">Automatic</Select.Option>
+                  <Select.Option value="semi-automatic">
+                    Semi-Automatic
+                  </Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item name="fuel_type" label="Fuel Type">
+                <Select>
+                  <Select.Option value="petrol">Petrol</Select.Option>
+                  <Select.Option value="diesel">Diesel</Select.Option>
+                  <Select.Option value="electric">Electric</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item name="seating_capacity" label="Seating Capacity">
+                <Input />
+              </Form.Item>
+            </div>
+            <Form.Item name="description" label="Description">
+              <Input.TextArea />
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
     </div>
   );
 }

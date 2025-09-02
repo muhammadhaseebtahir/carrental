@@ -8,9 +8,9 @@ function App() {
 
 
 
-    const {isAppLoading,isAuthenticated,isAdmin} = useAuthContext()
-    console.log("isAuthenticated",isAuthenticated);
-    console.log("isAdmin",isAdmin);
+    const {isAppLoading} = useAuthContext()
+    // console.log("isAuthenticated",isAuthenticated);
+    // console.log("isAdmin",isAdmin);
     
   return (
 <>
