@@ -24,7 +24,8 @@ export default function ManageCar() {
 
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const [imageUrl, setImageUrl] = useState(null);
+ const [imageUrl, setImageUrl] = useState(null);
+const [file, setFile] = useState(null);
 const uploadButton = (
   <div>
     <PlusOutlined />
@@ -32,12 +33,14 @@ const uploadButton = (
   </div>
 );
 
-const handleUploadChange = ({ file }) => {
-  if (file && file.originFileObj) {
-    const previewUrl = URL.createObjectURL(file.originFileObj);
-    setImageUrl(previewUrl); // 👈 yeh update karega
-    // Agar aapko backend ke liye file store karni hai to yaha state bana sakte ho
-    // setSelectedFile(file.originFileObj);
+const handleUploadChange = ({ fileList }) => {
+  if (fileList && fileList.length > 0) {
+    const fileObj = fileList[0].originFileObj;
+    if (fileObj) {
+      const previewUrl = URL.createObjectURL(fileObj);
+      setImageUrl(previewUrl);   // preview ke liye
+      setFile(fileObj);          // backend ke liye
+    }
   }
 };
   const fetchData = async () => {
@@ -73,12 +76,47 @@ const showUpdateModal = (record) => {
   }
   setIsModalVisible(true);
 };
-  const handleUpdate = (values) => {
-    const updatedProduct = { ...selectedProduct, ...values };
-    // Call API to update product
-    setIsModalVisible(false);
-  };
 
+
+// *****************Handle update *************
+ const handleUpdate = async (values) => {
+  if (!selectedProduct) return;
+
+  try {
+    const formData = new FormData();
+
+    // sirf form fields bhejna hai
+    formData.append("product", JSON.stringify(values));
+
+    // agar user ne nayi image select ki hai to hi bhejo
+    if (file) {
+      formData.append("image", file);  // ✅ ab actual file jayegi
+    }
+
+    const res = await axios.put(
+      `http://localhost:8000/dashboard/updateProduct/${selectedProduct._id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    if (res.status === 200) {
+      message.success("Product updated successfully");
+      fetchData();
+      setIsModalVisible(false);
+      setFile(null); // reset
+    }
+  } catch (err) {
+    console.log("Error updating product:", err);
+    message.error(err.response?.data?.message || "Something went wrong");
+  }
+};
+
+// *******************Handle Delete ********************
   const handleDelete = async (_id) => {
     Modal.confirm({
       title: "Are you sure to delete this product?",
@@ -168,7 +206,7 @@ const showUpdateModal = (record) => {
       key: "status",
       render: (status) => (
         <span
-          className={`px-2 py-1 rounded-full text-white ${
+          className={`px-2 py-1 rounded-full  ${
             status === "available"
               ? "bg-green-100 text-green-500"
               : "bg-red-100 text-red-500 "
@@ -227,6 +265,7 @@ const showUpdateModal = (record) => {
             rowKey="_id"
           />
         )}
+      </div>
 
         {/* *************Update Model************* */}
 
@@ -244,6 +283,7 @@ const showUpdateModal = (record) => {
     listType="picture-card"
     showUploadList={false}
     beforeUpload={() => false}
+    fileList={[]}
     onChange={handleUploadChange}
   >
     {imageUrl ? (
@@ -257,6 +297,7 @@ const showUpdateModal = (record) => {
     )}
   </Upload>
 </Form.Item>
+
             <Form.Item name="brand" label="Brand">
               <Input />
             </Form.Item>
@@ -303,7 +344,6 @@ const showUpdateModal = (record) => {
             </Form.Item>
           </Form>
         </Modal>
-      </div>
     </div>
   );
 }

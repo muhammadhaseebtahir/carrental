@@ -1,6 +1,8 @@
 import React from "react";
+import {useNavigate} from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
   const dashboardCard = [
     { title: "Totals Cars", value: 8, icon: <i className="ri-car-line"></i> },
     {
@@ -18,6 +20,7 @@ export default function Home() {
 
   return (
     <div className="px-4 pt-10 md:px-10 flex-1 w-full">
+      <button className="text-blue-500 cursor-pointer pb-2" onClick={()=>navigate('/')} > <i className="ri-arrow-left-line"></i> Go to Home</button>
       <h1 className="text-3xl font-semibold ">Admin Dashboard</h1>
       <p className=" text-gray-500 pt-2">
         Monitor overall platform performance including total cars, bookings,
