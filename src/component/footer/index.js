@@ -1,7 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
 export default function Footer() {
+  const location= useLocation()
   // Animation variants
   const fadeUp = {
     hidden: { opacity: 0, y: 30 },
@@ -10,14 +12,14 @@ export default function Footer() {
 
   return (
     <motion.div
-      className="px-6 md:px-16 lg:px-24 xl:px-32 text-gray-500"
+      className={`px-6 md:px-16 lg:px-24 xl:px-32 pt-14 text-gray-500 ${location.pathname.startsWith("/product-details") ? "dark:bg-gray-800 dark:border-t dark:border-gray-200 " : "dark:bg-gray-900 dark:border-t dark:border-gray-200"}`}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: false, amount: 0.2 }}
       transition={{ staggerChildren: 0.2 }}
     >
       {/* Top Sections */}
-      <div className="flex flex-wrap items-start justify-between gap-10 pb-6 border-b border-gray-400">
+      <div className="flex flex-wrap items-start justify-between gap-10 pb-6 border-b border-gray-400 dark:border-gray-500">
         {/* Brand */}
         <motion.div
           className="w-full max-w-80 space-y-3"
@@ -41,7 +43,7 @@ export default function Footer() {
 
         {/* Quick Links */}
         <motion.div variants={fadeUp} transition={{ duration: 0.6, delay: 0.1 }}>
-          <p className="text-lg text-gray-800">Quick Links</p>
+          <p className="text-lg text-gray-800 dark:text-gray-100">Quick Links</p>
           <ul className="mt-3 flex flex-col gap-2 text-sm">
             <li>Home</li>
             <li>Broswer Cars</li>
@@ -52,7 +54,7 @@ export default function Footer() {
 
         {/* Resources */}
         <motion.div variants={fadeUp} transition={{ duration: 0.6, delay: 0.2 }}>
-          <p className="text-lg text-gray-800">Resources</p>
+          <p className="text-lg text-gray-800 dark:text-gray-100">Resources</p>
           <ul className="mt-3 flex flex-col gap-2 text-sm">
             <li>Help Center</li>
             <li>Term of services</li>
@@ -63,7 +65,7 @@ export default function Footer() {
 
         {/* Contact */}
         <motion.div variants={fadeUp} transition={{ duration: 0.6, delay: 0.3 }}>
-          <p className="text-lg text-gray-800">Contact</p>
+          <p className="text-lg text-gray-800 dark:text-gray-100">Contact</p>
           <ul className="mt-3 flex flex-col gap-2 text-sm">
             <li>1234 Luxry Drive</li>
             <li>San Francisco, CA 94107</li>

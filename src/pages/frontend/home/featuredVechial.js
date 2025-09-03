@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { ArrowRightOutlined } from "@ant-design/icons";
 
@@ -7,8 +7,26 @@ import { cardData } from "../../../component/assest";
 
 import { motion } from "framer-motion";
 import Card from "../../../component/card";
+import { useProductContext } from "../../../context/ProductContext";
 
 export default function FeaturedVechial() {
+  const { fetchData,product} = useProductContext();
+  const [isLoading, setIsLoading] = useState(false);
+   useEffect(() => {
+      const loadProducts = async () => {
+        setIsLoading(true);
+  
+        try {
+          await fetchData();
+        } catch (err) {
+          console.log("Error fetching products:", err);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+  
+      loadProducts();
+    }, []);
   return (
     <div className="bg-white dark:bg-gray-900 overflow-hidden ">
       <motion.h1
@@ -39,12 +57,12 @@ export default function FeaturedVechial() {
         transition={{ duration: 0.7, ease: "easeOut", delay: 0.3 }}
         className="flex flex-wrap gap-6  items-center justify-center "
       >
-        {cardData.slice(0, 6).map((item, i) => (
+        {product.slice(0, 6).map((item, i) => (
           <Card card={item} key={i}  />
         ))}
       </motion.div>
       <div className="text-center my-10 ">
-        <button className=" border border-gray-400 rounded-lg px-5 py-2 dark:text-gray-300 hover:bg-gray-50 hover:border-slate-300">
+        <button className=" border border-gray-400 rounded-lg px-5 py-2 dark:text-gray-300 hover:bg-gray-500 hover:border-slate-300">
           Explore all cars <ArrowRightOutlined className="pl-2" />
         </button>
       </div>

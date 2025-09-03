@@ -2,68 +2,45 @@ import React, { useState } from "react";
 import { Button, Form, Input, message } from "antd";
 import { UserOutlined, MailOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
 import { useAuthContext } from "../../context/AuthContext";
 
 export default function Register() {
-  const {setUserFromToken}= useAuthContext()
-  const navigate =useNavigate()
-    const [isLoading,setIsLoading]= useState(false)
+  const { setUserFromToken } = useAuthContext();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
-  const onFinish = async(values) => {
-    await handelSubmit(values)
+  const onFinish = async (values) => {
+    await handelSubmit(values);
   };
 
-  const handelSubmit=async(values)=>{
-    const {userName,email,password}=values
-    if(!userName || !email || !password){
-        return message.error("Please fill all the inputs.")
+  const handelSubmit = async (values) => {
+    const { userName, email, password } = values;
+    if (!userName || !email || !password) {
+      return message.error("Please fill all the inputs.");
     }
     // console.log("values", values);
 
-   setIsLoading(true)
+    setIsLoading(true);
 
-  //  axios.post("http://localhost:8000/auth/register",{
-  //   userName,
-  //   email,
-  //   password
-  //  }).then((res)=>{
-  //   const {token}= res.data
-  //   console.log("token",token);
-    
-  //   localStorage.setItem("token",token)
-  //   await setUserFromToken(token)
-  //   message.success(res.data.message)
-  //       form.resetFields();
-  //       setIsLoading(false)
-  //       navigate("/")
-
-
-  // }catch((err)=>{
-  //   message.success(err?.response?.data?.message)
-  //  setIsLoading(false)
-  //  })
-     
-  try{
-   const res= await axios.post("http://localhost:8000/auth/register",{
-    userName,email,password
-   })
-   const {token} = res.data
-    localStorage.setItem("token",token)
-    await  setUserFromToken(token)
-      message.success(res.data.message)
- form.resetFields();
-        setIsLoading(false)
-        navigate("/")
-
-  }catch(err){
-  message.success(err?.response?.data?.message)
-   setIsLoading(false)
-  }
-
-
-  }
-
+    try {
+      const res = await axios.post("http://localhost:8000/auth/register", {
+        userName,
+        email,
+        password,
+      });
+      const { token } = res.data;
+      localStorage.setItem("token", token);
+      await setUserFromToken(token);
+      message.success(res.data.message);
+      form.resetFields();
+      setIsLoading(false);
+      navigate("/");
+    } catch (err) {
+      message.success(err?.response?.data?.message);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-gray-900 flex items-center justify-center">
@@ -78,7 +55,9 @@ export default function Register() {
           autoComplete="off"
         >
           <Form.Item
-            label={<span className="text-gray-700 dark:text-gray-300">UserName</span>}
+            label={
+              <span className="text-gray-700 dark:text-gray-300">UserName</span>
+            }
             name="userName"
             rules={[{ required: true, message: "Please enter you name" }]}
           >
@@ -89,7 +68,9 @@ export default function Register() {
           </Form.Item>
 
           <Form.Item
-            label={<span className="text-gray-700 dark:text-gray-300">Email</span>}
+            label={
+              <span className="text-gray-700 dark:text-gray-300">Email</span>
+            }
             name="email"
             rules={[
               { required: true, message: "Please enter you email" },
@@ -103,7 +84,9 @@ export default function Register() {
           </Form.Item>
 
           <Form.Item
-            label={<span className="text-gray-700 dark:text-gray-300">Password</span>}
+            label={
+              <span className="text-gray-700 dark:text-gray-300">Password</span>
+            }
             name="password"
             rules={[
               { required: true, message: "Please enter you password" },
@@ -117,7 +100,12 @@ export default function Register() {
           </Form.Item>
 
           <Form.Item>
-            <Button htmlType='submit' loading={isLoading} type="primary" className="w-full">
+            <Button
+              htmlType="submit"
+              loading={isLoading}
+              type="primary"
+              className="w-full"
+            >
               Register
             </Button>
           </Form.Item>
@@ -125,10 +113,7 @@ export default function Register() {
 
         <p className="text-center text-sm text-gray-400 dark:text-gray-500">
           Already have an account?{" "}
-          <Link
-            to="/auth/login"
-            className="text-blue-400 hover:underline"
-          >
+          <Link to="/auth/login" className="text-blue-400 hover:underline">
             Login
           </Link>
         </p>
