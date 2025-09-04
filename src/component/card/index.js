@@ -20,7 +20,7 @@ export default function Card({ card }) {
           className="w-full h-full object-cover  transition-transform duration-500 group-hover:scale-105"
         />
 
-        <p className="absolute top-3 left-3 px-3 py-1 rounded-full z-10 text-xs text-center bg-blue-400 capitalize text-white">
+        <p className="absolute top-3 left-3 px-3 py-1 rounded-full z-10 text-xs text-center bg-blue-500 capitalize text-white">
           {card.status}
         </p>
         <p className="absolute bottom-4  right-4 px-3 py-2 rounded-xl font-bold z-10  bg-black/80 backdrop-blur-smf text-white">

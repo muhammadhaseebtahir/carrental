@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import   {cardData} from "../../../component/assest/index"
 import { motion } from "framer-motion";
 import Card from '../../../component/card';
+import { useProductContext } from '../../../context/ProductContext';
 
 export default function Cars() {
+  const {product,fetchData} = useProductContext()
+ 
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div className='mb-20'>
     <div className='flex flex-col items-center justify-center py-20 bg-gray-200/50 max-md:px-4 space-y-3' >
@@ -24,7 +30,7 @@ export default function Cars() {
                 transition={{ duration: 0.7, ease: "easeOut"}}
         className="flex flex-wrap gap-6  items-center justify-center "
       >
-        {cardData.map((item, i) => (
+        {product.map((item, i) => (
           <Card card={item} key={i}  />
         ))}
       </motion.div>

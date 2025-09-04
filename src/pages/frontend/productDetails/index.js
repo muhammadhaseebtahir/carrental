@@ -53,7 +53,7 @@ export default function ProductDetails() {
       setState(initialState);
       // navigate("/");
     } catch (err) {
-      console.log(err);
+      console.log(err.response?.data?.error || err.message);
       message.error(err.response?.data?.message || "Something went wrong");
       setIsLoading(false)
     }

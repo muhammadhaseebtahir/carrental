@@ -83,7 +83,7 @@ const App = () => {
     <>
       <DashboardHeader />
 
-      <Layout style={{ minHeight: "100vh" }}>
+      <Layout style={{ minHeight: "100vh" }}  >
         <Sider
           collapsible
           collapsed={collapsed}
