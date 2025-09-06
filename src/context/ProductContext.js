@@ -19,7 +19,7 @@ export default function ProductContextProvider({children}) {
     
     try {
       const res = await axios.get(
-        "http://localhost:8000/dashboard/getProducts",      
+        "https://car-rental-backend-drab.vercel.app/dashboard/getProducts",      
       );
       setProduct(res.data.data);
     } catch (err) {

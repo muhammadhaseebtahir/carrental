@@ -22,7 +22,7 @@ export default function Home() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/booking/dashboard-data", {
+      const res = await axios.get("https://car-rental-backend-drab.vercel.app/booking/dashboard-data", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       const { DashboardData } = res.data;

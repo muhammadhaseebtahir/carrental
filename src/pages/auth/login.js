@@ -21,7 +21,7 @@ const handleSubmit = async (values) => {
 
   setIsLoading(true);
   try {
-    const res = await axios.post("http://localhost:8000/auth/login", {
+    const res = await axios.post("https://car-rental-backend-drab.vercel.app/auth/login", {
       email,
       password,
     });

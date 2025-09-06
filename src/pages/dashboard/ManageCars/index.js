@@ -89,7 +89,7 @@ export default function ManageCar() {
       }
 
       const res = await axios.put(
-        `http://localhost:8000/dashboard/updateProduct/${selectedProduct._id}`,
+        `https://car-rental-backend-drab.vercel.app/dashboard/updateProduct/${selectedProduct._id}`,
         formData,
         {
           headers: {
@@ -120,7 +120,7 @@ export default function ManageCar() {
       onOk: async () => {
         try {
           const res = await axios.delete(
-            `http://localhost:8000/dashboard/deleteProduct/${_id}`,
+            `https://car-rental-backend-drab.vercel.app/dashboard/deleteProduct/${_id}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -13,7 +13,7 @@ export default function ManageBookings() {
   const handleChange = async (value, record) => {
     try {
       const res = await axios.put(
-        "http://localhost:8000/booking/change-booking-status",
+        "https://car-rental-backend-drab.vercel.app/booking/change-booking-status",
         {
           id: record._id,
           status: value,
@@ -42,7 +42,7 @@ export default function ManageBookings() {
       onOk: async () => {
         try {
           const res = await axios.delete(
-            `http://localhost:8000/booking/delete-booking/${id}`,
+            `https://car-rental-backend-drab.vercel.app/booking/delete-booking/${id}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -63,7 +63,7 @@ export default function ManageBookings() {
     setIsLoading(true);
     try {
       const res = await axios.get(
-        "http://localhost:8000/booking/admin-bookings",
+        "https://car-rental-backend-drab.vercel.app/booking/admin-bookings",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

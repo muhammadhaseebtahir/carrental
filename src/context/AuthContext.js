@@ -64,7 +64,7 @@ export default function AuthContextProvider({ children }) {
     async (token, isInitial = false) => {
       if (isInitial) setIsAppLoading(true); // sirf app start par loader
       try {
-        const res = await axios.get("http://localhost:8000/auth/user", {
+        const res = await axios.get("https://car-rental-backend-drab.vercel.app/auth/user", {
           headers: { Authorization: `Bearer ${token}` },
         });
 

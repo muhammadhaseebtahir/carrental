@@ -36,7 +36,7 @@ export default function ProductDetails() {
     setIsLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:8000/booking/create-booking",
+        "https://car-rental-backend-drab.vercel.app/booking/create-booking",
         {
           pickupDate,
           returnDate,

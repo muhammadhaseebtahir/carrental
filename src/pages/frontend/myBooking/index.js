@@ -15,7 +15,7 @@ export default function Mybookings() {
       setIsLoading(true);
       try {
         const res = await axios.get(
-          "http://localhost:8000/booking/user-bookings",
+          "https://car-rental-backend-drab.vercel.app/booking/user-bookings",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

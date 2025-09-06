@@ -18,7 +18,7 @@ export default function ForgotPassword() {
       return message.error("Please enter your all inputs.")
       }
       setIsLoading(true)
-      axios.put("http://localhost:8000/auth/forgot-password",{
+      axios.put("https://car-rental-backend-drab.vercel.app/auth/forgot-password",{
         email,newPassword
       }).then((res)=>{
           message.success(res.data?.message || "Password updated successfully");

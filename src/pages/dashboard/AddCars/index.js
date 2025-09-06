@@ -102,7 +102,7 @@ export default function AddCars() {
       formData.append("product", JSON.stringify(product));
       formData.append("image", image);
 
-      await axios.post("http://localhost:8000/dashboard/addproduct", formData, {
+      await axios.post("https://car-rental-backend-drab.vercel.app/dashboard/addproduct", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
